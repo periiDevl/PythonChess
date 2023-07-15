@@ -24,7 +24,15 @@ white = [
     Material("Bishop", 5, 7),
     Material("Knight", 6, 7),
     Material("Rook", 7, 7),
+
     Material("Pawn", 7, 6),
+    Material("Pawn", 6, 6),
+    Material("Pawn", 5, 6),
+    Material("Pawn", 4, 6),
+    Material("Pawn", 3, 6),
+    Material("Pawn", 2, 6),
+    Material("Pawn", 1, 6),
+    Material("Pawn", 0, 6),
 ]
 
 black = [
@@ -36,7 +44,15 @@ black = [
     Material("Bishop", 5, 0),
     Material("Knight", 6, 0),
     Material("Rook", 7, 0),
+
     Material("Pawn", 7, 1),
+    Material("Pawn", 6, 1),
+    Material("Pawn", 5, 1),
+    Material("Pawn", 4, 1),
+    Material("Pawn", 3, 1),
+    Material("Pawn", 2, 1),
+    Material("Pawn", 1, 1),
+    Material("Pawn", 0, 1),
 ]
 
 
@@ -77,7 +93,7 @@ while running:
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 if (whiteTurn):
-                    if (selectedPiece >= 0 and leaglizer.GlobalGal(black,white,white[selectedPiece],white[selectedPiece].x, white[selectedPiece].y, col,row)):
+                    if (selectedPiece >= 0 and leaglizer.GlobalGal(black,white,white[selectedPiece],white[selectedPiece].x, white[selectedPiece].y, col,row, True)):
                         white[selectedPiece].x = col
                         white[selectedPiece].y = row
                         selectedPiece = -1
@@ -87,7 +103,7 @@ while running:
                     else:
                         selectedPiece = -1
                 else:
-                    if (selectedPiece >= 0 and leaglizer.GlobalGal(white,black,black[selectedPiece],black[selectedPiece].x, black[selectedPiece].y, col,row)):
+                    if (selectedPiece >= 0 and leaglizer.GlobalGal(white,black,black[selectedPiece],black[selectedPiece].x, black[selectedPiece].y, col,row, False)):
                         black[selectedPiece].x = col
                         black[selectedPiece].y = row
                         selectedPiece = -1

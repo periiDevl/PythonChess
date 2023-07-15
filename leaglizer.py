@@ -14,10 +14,24 @@ def selection_sort_matrial(array):
         (arr_copy[s].x, arr_copy[min_idx].x) = (arr_copy[min_idx].x, arr_copy[s].x)
     return arr_copy
 
-def PawnGal(original_row, original_col, row, col):
-    if original_col - col == 1:  # Regular move: one square forward
-        return True
-    return False
+def PawnGal(original_row, original_col, row, col, is_white):
+    # Detecting pawn moves
+    if is_white:
+        if original_col == 6 and original_col - col == 2 and original_row == row:
+            # Regular move: two squares forward for white pawn from the initial position
+            return True
+        if original_col - col == 1 and original_row == row:
+            # Regular move: one square forward for white pawn
+            return True
+        return False
+    else:
+        if original_col == 1 and original_col - col == -2 and original_row == row:
+            # Regular move: two squares forward for black pawn from the initial position
+            return True
+        if original_col - col == -1 and original_row == row:
+            # Regular move: one square forward for black pawn
+            return True
+        return False
 
 
 def KingGal(original_row, original_col, row, col):
@@ -81,24 +95,8 @@ def is_in_front_of_black(original_row, original_col, row, col, black):
     return True
 
 
-def is_diagonal_blocked(row, col, original_row, original_col, black):
-    diff_x = row - original_row
-    diff_y = col - original_col
-    step_x = -1 if diff_x < 0 else 1
-    step_y = -1 if diff_y < 0 else 1
-    x = original_row + step_x
-    y = original_col + step_y
 
-    while x != row or y != col:
-        for piece in black:
-            if piece.x == x and piece.y == y:
-                return True
-        x += step_x
-        y += step_y
-
-    return False
-
-def GlobalGal(black, white, Material, original_row, original_col, row, col):
+def GlobalGal(black, white, Material, original_row, original_col, row, col, is_white):
     for i in range(len(white)):
         if white[i].x == row and white[i].y == col:
             return False
@@ -118,16 +116,23 @@ def GlobalGal(black, white, Material, original_row, original_col, row, col):
                 black.pop(i)
                 return True
             
-                
     else:
-        for i in range(len(black)):
-            if black[i].y == col and original_row == row:
-                return False
-            if black[i].x == row and abs(black[i].y - col) == 1:
-                if is_in_front_of_black(row, col, black):
+        for p in black:
+            if (is_white):
+                if (p.y == original_col - 1 and p.x == original_row - 1 or p.x == original_row + 1):
+                    if p.x == row and p.y == col:
+                        black.pop(black.index(p))
+                        return True
+                if p.x == row and p.y == col:
                     return False
-                black.pop(i)
-                return True
+            else:
+                if (p.y == original_col + 1 and p.x == original_row - 1 or p.x == original_row + 1):
+                    if p.x == row and p.y == col:
+                        black.pop(black.index(p))
+                        return True
+                if p.x == row and p.y == col:
+                    return False
+
 
     if Material.type == "King":
         return KingGal(original_row, original_col, row, col)
@@ -140,4 +145,4 @@ def GlobalGal(black, white, Material, original_row, original_col, row, col):
     if Material.type == "Rook":
         return RookGal(original_row, original_col, row, col)
     if Material.type == "Pawn":
-        return PawnGal(original_row, original_col, row, col)
+        return PawnGal(original_row, original_col, row, col, is_white)
