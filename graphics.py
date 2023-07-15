@@ -5,6 +5,9 @@ from collections import namedtuple
 import leaglizer
 import time
 
+icon = pygame.image.load("Assets/b_king.png")
+pygame.display.set_icon(icon)
+
 selectedPieceDrawn = Material("Pawn",0, 0)
 def switch_perspective():
     for material in white:
