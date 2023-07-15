@@ -58,17 +58,27 @@ def is_in_front_of_black(original_row, original_col, row, col, black):
             return False
         
         if piece.x > original_row and piece.x < row and piece.y == col and piece.y == original_col:
-
             return False
         
         if piece.y < original_col and piece.y > col and piece.x == row and piece.x == original_row:
-
             return False
+        
         if piece.y > original_col and piece.y < col and piece.x == row and piece.x == original_row:
-
             return False
+        
+        if piece.x < original_row and piece.x > row and piece.y < original_col and piece.y > col and abs(piece.x - original_row) == abs(piece.y - original_col):
+            return False
+        
+        if piece.x > original_row and piece.x < row and piece.y < original_col and piece.y > col and abs(piece.x - original_row) == abs(piece.y - original_col):
+            return False
+        
+        if piece.x < original_row and piece.x > row and piece.y > original_col and piece.y < col and abs(piece.x - original_row) == abs(piece.y - original_col):
+            return False
+        
+        if piece.x > original_row and piece.x < row and piece.y > original_col and piece.y < col and abs(piece.x - original_row) == abs(piece.y - original_col):
+            return False
+    
     return True
-
 
 
 def is_diagonal_blocked(row, col, original_row, original_col, black):
@@ -98,12 +108,13 @@ def GlobalGal(black, white, Material, original_row, original_col, row, col):
 
     if not is_in_front_of_black(original_row, original_col, row, col, white):
         return False
+    
 
+    
     if Material.type != "Pawn":
         for i in range(len(black)):
             if black[i].x == row and black[i].y == col:
-                if is_diagonal_blocked(row, col, original_row, original_col, black):
-                    return False
+
                 black.pop(i)
                 return True
             
